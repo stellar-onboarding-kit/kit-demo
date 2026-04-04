@@ -1,23 +1,15 @@
 "use client";
 import Image from "next/image";
 import { SOCIALS } from "@/types/auth";
-import React from "react";
 
 export const Socials: React.FC = () => (
   <div className="flex gap-1">
     {SOCIALS.map((social) => (
       <div
         key={social.id}
-        className="overflow-hidden rounded-xl bg-[#171717] p-3 flex-1 flex items-center justify-center"
+        className="overflow-hidden rounded-xl bg-card hover:bg-muted transition-colors cursor-pointer p-3 flex-1 flex items-center justify-center"
       >
-        <div className="flex items-center gap-2">
-          <Image
-            src={`/icons/${social.icon}.svg`}
-            alt={social.name}
-            width={24}
-            height={24}
-          />
-        </div>
+        <Image src={`/icons/${social.icon}.svg`} alt={social.name} width={24} height={24} />
       </div>
     ))}
   </div>

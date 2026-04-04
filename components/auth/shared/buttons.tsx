@@ -1,10 +1,9 @@
 "use client";
-import React from "react";
 import { cn } from "@/lib/utils";
 
-export const PrimaryButton: React.FC<
-  React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ children, className, ...props }) => (
+export const PrimaryButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
+  children, className, ...props
+}) => (
   <button
     type="button"
     className={cn(
@@ -23,8 +22,8 @@ export const SecondaryButton: React.FC<
   <button
     type="button"
     className={cn(
-      "px-3 rounded-lg font-medium flex items-center justify-center w-fit select-none transition-colors border-none",
-      isActive ? "bg-white/10" : "",
+      "px-3 rounded-lg font-medium flex items-center justify-center w-fit select-none transition-colors border-none text-foreground",
+      isActive ? "bg-foreground/10" : "",
       className,
     )}
     {...props}

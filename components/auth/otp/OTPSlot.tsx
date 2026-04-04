@@ -1,5 +1,4 @@
 "use client";
-
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { SlotProps } from "input-otp";
@@ -14,7 +13,7 @@ function AnimatedChar({ value }: { value: string | null }) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 0 }}
           transition={{ duration: 0.08, ease: "easeInOut" }}
-          className={cn("absolute", value === null ? "text-white/10" : "")}
+          className={cn("absolute", value === null ? "text-foreground/20" : "")}
         >
           {value ?? "0"}
         </motion.span>
@@ -29,7 +28,8 @@ export const OTPSlot: React.FC<
   <motion.div
     layout
     className={cn(
-      "relative flex h-[45px] min-w-[36px] flex-1 items-center justify-center rounded-[10px] bg-[#171717] text-base font-semibold text-white",
+      "relative flex h-[45px] min-w-[36px] flex-1 items-center justify-center rounded-[10px] text-base font-semibold",
+      "bg-card text-foreground",
       isVerifying && "opacity-50"
     )}
     style={{ animationDelay: `${delay}ms` }}

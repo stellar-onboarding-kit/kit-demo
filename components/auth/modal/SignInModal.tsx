@@ -47,7 +47,7 @@ export const SignInModal: React.FC = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: open ? 1 : 0 }}
-        className="fixed inset-0 bg-black/50 z-50"
+        className="fixed inset-0 bg-black/30 z-50"
         style={{ pointerEvents: open ? "auto" : "none" }}
         onClick={handleClose}
       />
@@ -63,9 +63,10 @@ export const SignInModal: React.FC = () => {
             animate={{ opacity: 1, scale: 1, y: 0, height }}
             exit={{ opacity: 0, scale: 0.98, y: 10 }}
             className={cn(
-              "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[360px] overflow-hidden rounded-[28px] bg-[#111111] text-[#EEEEEE] will-change-transform z-100",
-              "shadow-[0px_0px_0px_1px_rgba(0,0,0,0.10),0px_12px_24px_-6px_rgba(51,51,51,0.03)]",
-              "outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[360px] overflow-hidden rounded-[28px] will-change-transform z-100",
+              "bg-background text-foreground",
+              "shadow-[0px_0px_0px_1px_rgba(0,0,0,0.08),0px_12px_32px_-8px_rgba(0,0,0,0.12)]",
+              "outline-none focus-visible:ring-2 focus-visible:ring-ring"
             )}
             onClick={(e) => e.stopPropagation()}
           >
@@ -102,9 +103,9 @@ export const SignInModal: React.FC = () => {
                   {currentStep.main && (
                     <>
                       <div className="flex items-center gap-2">
-                        <div className="flex-1 h-px bg-[#222222]" />
-                        <p className="text-neutral-400 text-xs">OR</p>
-                        <div className="flex-1 h-px bg-[#222222]" />
+                        <div className="flex-1 h-px bg-border" />
+                        <p className="text-muted-foreground text-xs">OR</p>
+                        <div className="flex-1 h-px bg-border" />
                       </div>
                       <div className="p-3">
                         <PrimaryButton
