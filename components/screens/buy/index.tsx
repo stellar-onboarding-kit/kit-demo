@@ -1,42 +1,47 @@
 import { registerScreen } from "@/components/screens/registry";
-import { useWalletStore } from "@/stores/wallet";
+import BuySelectProvider from "./buy-select-provider";
 import BuyEnterAmount from "./buy-enter-amount";
-import BuySelectPayment from "./buy-select-payment";
-import BuyReview from "./buy-review";
+import BuyCardInput from "./buy-card-input";
 import BuyConfirm from "./buy-confirm";
 import BuySuccess from "./buy-success";
 
 interface BuyState {
+  provider: string;
   amount: string;
-  paymentMethod: string;
 }
 
 const buyState: BuyState = {
+  provider: "",
   amount: "",
-  paymentMethod: "",
 };
 
 registerScreen("buy-enter-amount", (ctx) => (
-  <BuyEnterAmount
-    value={buyState.amount}
-    onChange={(v) => (buyState.amount = v)}
-    onNext={() => ctx.nav.pushNext()}
+  <BuySelectProvider
+    onSelect={(provider) => {
+      buyState.provider = provider;
+      ctx.nav.push("buy-select-payment");
+    }}
   />
 ));
 
 registerScreen("buy-select-payment", (ctx) => (
-  <BuySelectPayment
-    onSelect={(method) => {
-      buyState.paymentMethod = method;
-      ctx.nav.pushNext();
+  <BuyEnterAmount
+    value={buyState.amount}
+    provider={buyState.provider}
+    onChange={(v) => (buyState.amount = v)}
+    onNext={() => {
+      if (buyState.provider === "card") {
+        ctx.nav.push("buy-review");
+      } else {
+        ctx.nav.push("buy-confirm");
+      }
     }}
   />
 ));
 
 registerScreen("buy-review", (ctx) => (
-  <BuyReview
+  <BuyCardInput
     amount={buyState.amount}
-    paymentMethod={buyState.paymentMethod}
     onConfirm={() => ctx.nav.pushNext()}
   />
 ));
@@ -44,7 +49,7 @@ registerScreen("buy-review", (ctx) => (
 registerScreen("buy-confirm", (ctx) => (
   <BuyConfirm
     amount={buyState.amount}
-    paymentMethod={buyState.paymentMethod}
+    provider={buyState.provider}
     onSuccess={() => ctx.nav.pushNext()}
     onRetry={() => ctx.nav.back()}
   />
@@ -55,7 +60,7 @@ registerScreen("buy-success", (ctx) => (
     amount={buyState.amount}
     onDone={() => {
       buyState.amount = "";
-      buyState.paymentMethod = "";
+      buyState.provider = "";
       ctx.nav.replace("wallet-home");
       ctx.fetchBalances();
     }}

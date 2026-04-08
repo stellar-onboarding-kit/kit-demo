@@ -4,14 +4,39 @@ import { Input } from "@/components/ui/input";
 
 interface BuyEnterAmountProps {
   value: string;
+  provider: string;
   onChange: (value: string) => void;
   onNext: () => void;
 }
 
-export default function BuyEnterAmount({ value, onChange, onNext }: BuyEnterAmountProps) {
+const PROVIDER_NAMES: Record<string, string> = {
+  card: "Credit and Debit card",
+  moonpay: "Moonpay",
+  coinbase: "Coinbase",
+  mercuryo: "Mercuryo",
+};
+
+const PROVIDER_ICONS: Record<string, string> = {
+  card: "💳",
+  moonpay: "🌙",
+  coinbase: "🔵",
+  mercuryo: "✦",
+};
+
+export default function BuyEnterAmount({ value, provider, onChange, onNext }: BuyEnterAmountProps) {
   return (
     <div className="flex flex-col gap-4">
-      <ModalTitle>Buy Crypto</ModalTitle>
+      <ModalTitle>Select the Amount</ModalTitle>
+      
+      <div className="flex items-center gap-3 rounded-2xl bg-(--ck-body-background-secondary,#f6f7f9) p-4">
+        <span className="text-2xl">{PROVIDER_ICONS[provider]}</span>
+        <div className="flex flex-1 flex-col">
+          <span className="text-sm font-medium text-(--ck-body-color)">{PROVIDER_NAMES[provider]}</span>
+          <span className="text-xs text-(--ck-body-color-muted)">Fees 1-2%</span>
+        </div>
+        <span className="text-(--ck-body-color-muted)">›</span>
+      </div>
+
       <div className="flex flex-col gap-2">
         <label className="text-sm text-(--ck-body-color-muted)">Amount (USD)</label>
         <Input
@@ -21,6 +46,7 @@ export default function BuyEnterAmount({ value, onChange, onNext }: BuyEnterAmou
           onChange={(e) => onChange(e.target.value)}
         />
       </div>
+      
       <Button onClick={onNext} disabled={!value || Number(value) <= 0} className="w-full">
         Continue
       </Button>

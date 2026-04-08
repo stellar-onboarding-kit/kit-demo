@@ -7,12 +7,19 @@ import { useState, useEffect } from "react";
 
 interface BuyConfirmProps {
   amount: string;
-  paymentMethod: string;
+  provider: string;
   onSuccess: () => void;
   onRetry: () => void;
 }
 
-export default function BuyConfirm({ amount, paymentMethod, onSuccess, onRetry }: BuyConfirmProps) {
+const PROVIDER_NAMES: Record<string, string> = {
+  card: "Credit Card",
+  moonpay: "Moonpay",
+  coinbase: "Coinbase",
+  mercuryo: "Mercuryo",
+};
+
+export default function BuyConfirm({ amount, provider, onSuccess, onRetry }: BuyConfirmProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -55,11 +62,25 @@ export default function BuyConfirm({ amount, paymentMethod, onSuccess, onRetry }
 
   return (
     <div className="flex flex-col items-center gap-4 py-8 text-center">
-      <Spinner shape="circle" loading={loading} />
-      <ModalTitle>Processing...</ModalTitle>
+      <ModalTitle>{PROVIDER_NAMES[provider] || "Processing"}</ModalTitle>
+      <div className="relative">
+        <Spinner shape="circle" loading={loading} />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-4xl">
+            {provider === "card" && "💳"}
+            {provider === "moonpay" && "🌙"}
+            {provider === "coinbase" && "🔵"}
+            {provider === "mercuryo" && "✦"}
+          </span>
+        </div>
+      </div>
+      <ModalTitle>Please wait</ModalTitle>
       <ModalDescription>
-        Your payment is being processed. This may take a moment.
+        Waiting for the transaction to confirm
       </ModalDescription>
+      <Button variant="outline" onClick={handlePurchase} className="mt-4">
+        🔄 Try again
+      </Button>
     </div>
   );
 }
