@@ -63,7 +63,7 @@ registerScreen("buy-success", (ctx) => (
       buyState.amount = "";
       buyState.provider = "";
       ctx.fetchBalances();
-      ctx.closeModal();
+      ctx.nav.replace("buy-enter-amount");
     }}
   />
 ));
