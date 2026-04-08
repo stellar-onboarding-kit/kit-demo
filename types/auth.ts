@@ -1,73 +1,412 @@
 // ─── Step IDs ────────────────────────────────────────────────────────────────
 
 export type StepId =
-  | "email"
-  | "email-confirm"
-  | "phone"
-  | "phone-confirm"
-  | "passkey"
-  | "passkey-confirm"
+  // Onboarding
+  | "welcome"
+  | "connect-wallet"
+
+  // Wallet selection & connection
   | "wallet-select"
-  | "wallet-confirm";
+  | "wallet-approve"
+  | "wallet-connected"
+
+  // Smart account
+  | "smart-account-create"
+  | "smart-account-confirm"
+  | "smart-account-success"
+
+  // Wallet home
+  | "wallet-home"
+  | "balance"
+  | "token-list"
+  | "activity"
+
+  // Funding hub
+  | "add-funds"
+  | "funding-hub"
+
+  // Buy (on-ramp)
+  | "buy-enter-amount"
+  | "buy-select-payment"
+  | "buy-review"
+  | "buy-confirm"
+  | "buy-processing"
+  | "buy-success"
+
+  // Receive
+  | "receive-select-asset"
+  | "receive-qr"
+  | "receive-enter-amount"
+  | "receive-share"
+  | "receive-waiting"
+  | "receive-detected"
+  | "receive-success"
+
+  // From CEX
+  | "cex-instructions"
+  | "cex-copy-address"
+  | "cex-waiting"
+  | "cex-detected"
+  | "cex-processing"
+  | "cex-success"
+
+  // Bridge
+  | "bridge-connect"
+  | "bridge-select-chain"
+  | "bridge-enter-amount"
+  | "bridge-confirm"
+  | "bridge-processing"
+  | "bridge-success"
+
+  // Request (P2P)
+  | "request-generate"
+  | "request-share"
+  | "request-waiting"
+  | "request-success"
+
+  // Send
+  | "send-select-type"
+  | "send-enter-address"
+  | "send-select-contact"
+  | "send-scan-qr"
+  | "send-select-token"
+  | "send-enter-amount"
+  | "send-review"
+  | "send-confirm"
+  | "send-success"
+  | "send-insufficient-balance"
+
+  // Swap
+  | "swap-select-token-in"
+  | "swap-select-token-out"
+  | "swap-enter-amount"
+  | "swap-review"
+  | "swap-confirm"
+  | "swap-success"
+  | "swap-slippage-warning"
+  | "swap-insufficient-liquidity"
+
+  // dApp interaction
+  | "dapp-connect"
+  | "dapp-transaction"
+  | "dapp-sign-message"
+  | "dapp-batch-preview"
+  | "dapp-success"
+  | "dapp-failed"
+
+  // Session (smart account)
+  | "session-active"
+  | "session-approve"
+  | "session-expired"
+  | "session-reauth"
+
+  // Activity
+  | "activity-list"
+  | "activity-detail"
+  | "activity-filter"
+
+  // Settings
+  | "settings"
+  | "settings-account"
+  | "settings-security"
+  | "settings-notifications"
+  | "settings-address-book"
+  | "settings-disconnect"
+  | "settings-disconnect-confirm"
+
+  // Security
+  | "security-keys"
+  | "security-key-detail"
+  | "security-backup"
+  | "security-backup-confirm"
+  | "security-recovery"
+  | "security-recovery-verify"
+
+  // Address book
+  | "address-book"
+  | "address-book-add"
+  | "address-book-scan"
+  | "address-book-select";
 
 // ─── Step definition ─────────────────────────────────────────────────────────
 
 export interface Step {
   id: StepId;
   label: string;
-  /** True = one of the three main tabs (email / phone / passkey) */
-  main: boolean;
+  group: StepGroup;
 }
+
+export type StepGroup =
+  | "onboarding"
+  | "wallet"
+  | "smart-account"
+  | "home"
+  | "funding"
+  | "buy"
+  | "receive"
+  | "cex"
+  | "bridge"
+  | "request"
+  | "send"
+  | "swap"
+  | "dapp"
+  | "session"
+  | "activity"
+  | "settings"
+  | "security"
+  | "address-book";
 
 // ─── Social / Wallet providers ───────────────────────────────────────────────
 
-export type SocialProvider = {
+export interface SocialProvider {
   id: string;
   name: string;
   icon: string;
-};
+}
 
-export type Wallet = {
+export interface Wallet {
   id: string;
   name: string;
   icon: string;
-};
+}
 
 // ─── Static data ─────────────────────────────────────────────────────────────
 
 export const STEPS: Step[] = [
-  { id: "email",           label: "Email",           main: true  },
-  { id: "email-confirm",   label: "Confirm Email",   main: false },
-  { id: "phone",           label: "Phone",           main: true  },
-  { id: "phone-confirm",   label: "Confirm Phone",   main: false },
-  { id: "passkey",         label: "Passkey",         main: true  },
-  { id: "passkey-confirm", label: "Confirm Passkey", main: false },
-  { id: "wallet-select",   label: "Select Wallet",   main: false },
-  { id: "wallet-confirm",  label: "Wallet Connected",main: false },
-];
+  // Onboarding
+  { id: "welcome",              label: "Welcome",              group: "onboarding" },
+  { id: "connect-wallet",       label: "Connect Wallet",       group: "onboarding" },
 
-export const MAIN_STEPS = STEPS.filter((s) => s.main);
+  // Wallet
+  { id: "wallet-select",        label: "Select Wallet",        group: "wallet" },
+  { id: "wallet-approve",       label: "Approve Connection",   group: "wallet" },
+  { id: "wallet-connected",     label: "Connected",            group: "wallet" },
+
+  // Smart account
+  { id: "smart-account-create",  label: "Create Smart Account", group: "smart-account" },
+  { id: "smart-account-confirm", label: "Confirm",              group: "smart-account" },
+  { id: "smart-account-success", label: "Wallet Ready",         group: "smart-account" },
+
+  // Home
+  { id: "wallet-home",  label: "Wallet",      group: "home" },
+  { id: "balance",      label: "Balance",     group: "home" },
+  { id: "token-list",   label: "Tokens",      group: "home" },
+  { id: "activity",     label: "Activity",    group: "home" },
+
+  // Funding
+  { id: "add-funds",    label: "Add Funds",   group: "funding" },
+  { id: "funding-hub",  label: "Funding Hub", group: "funding" },
+
+  // Buy
+  { id: "buy-enter-amount",   label: "Enter Amount",        group: "buy" },
+  { id: "buy-select-payment", label: "Select Payment",      group: "buy" },
+  { id: "buy-review",         label: "Review Purchase",     group: "buy" },
+  { id: "buy-confirm",        label: "Confirm Purchase",    group: "buy" },
+  { id: "buy-processing",     label: "Processing",          group: "buy" },
+  { id: "buy-success",        label: "Purchase Complete",   group: "buy" },
+
+  // Receive
+  { id: "receive-select-asset", label: "Select Asset",       group: "receive" },
+  { id: "receive-qr",           label: "Receive",            group: "receive" },
+  { id: "receive-enter-amount", label: "Request Amount",     group: "receive" },
+  { id: "receive-share",        label: "Share",              group: "receive" },
+  { id: "receive-waiting",      label: "Waiting",            group: "receive" },
+  { id: "receive-detected",     label: "Detected",           group: "receive" },
+  { id: "receive-success",      label: "Received",           group: "receive" },
+
+  // CEX
+  { id: "cex-instructions",  label: "Instructions",    group: "cex" },
+  { id: "cex-copy-address",  label: "Copy Address",    group: "cex" },
+  { id: "cex-waiting",       label: "Waiting",         group: "cex" },
+  { id: "cex-detected",      label: "Detected",        group: "cex" },
+  { id: "cex-processing",    label: "Processing",      group: "cex" },
+  { id: "cex-success",       label: "Success",         group: "cex" },
+
+  // Bridge
+  { id: "bridge-connect",      label: "Connect Wallet",    group: "bridge" },
+  { id: "bridge-select-chain", label: "Select Chain",      group: "bridge" },
+  { id: "bridge-enter-amount", label: "Enter Amount",      group: "bridge" },
+  { id: "bridge-confirm",      label: "Confirm Bridge",    group: "bridge" },
+  { id: "bridge-processing",   label: "Processing",        group: "bridge" },
+  { id: "bridge-success",      label: "Bridge Complete",   group: "bridge" },
+
+  // Request
+  { id: "request-generate", label: "Generate Request", group: "request" },
+  { id: "request-share",    label: "Share Request",    group: "request" },
+  { id: "request-waiting",  label: "Waiting",          group: "request" },
+  { id: "request-success",  label: "Request Complete", group: "request" },
+
+  // Send
+  { id: "send-select-type",          label: "Send",                 group: "send" },
+  { id: "send-enter-address",        label: "Enter Address",        group: "send" },
+  { id: "send-select-contact",       label: "Select Contact",       group: "send" },
+  { id: "send-scan-qr",              label: "Scan QR",              group: "send" },
+  { id: "send-select-token",         label: "Select Token",         group: "send" },
+  { id: "send-enter-amount",         label: "Enter Amount",         group: "send" },
+  { id: "send-review",               label: "Review",               group: "send" },
+  { id: "send-confirm",              label: "Confirm",              group: "send" },
+  { id: "send-success",              label: "Sent",                 group: "send" },
+  { id: "send-insufficient-balance", label: "Insufficient Balance", group: "send" },
+
+  // Swap
+  { id: "swap-select-token-in",       label: "Select Token",          group: "swap" },
+  { id: "swap-select-token-out",      label: "Select Token",          group: "swap" },
+  { id: "swap-enter-amount",          label: "Enter Amount",          group: "swap" },
+  { id: "swap-review",                label: "Review Swap",           group: "swap" },
+  { id: "swap-confirm",               label: "Confirm Swap",          group: "swap" },
+  { id: "swap-success",               label: "Swap Complete",         group: "swap" },
+  { id: "swap-slippage-warning",      label: "Slippage Warning",      group: "swap" },
+  { id: "swap-insufficient-liquidity", label: "Insufficient Liquidity", group: "swap" },
+
+  // dApp
+  { id: "dapp-connect",       label: "Connect",          group: "dapp" },
+  { id: "dapp-transaction",   label: "Approve Transaction", group: "dapp" },
+  { id: "dapp-sign-message",  label: "Sign Message",     group: "dapp" },
+  { id: "dapp-batch-preview", label: "Batch Preview",    group: "dapp" },
+  { id: "dapp-success",       label: "Success",          group: "dapp" },
+  { id: "dapp-failed",        label: "Failed",           group: "dapp" },
+
+  // Session
+  { id: "session-active",  label: "Session Active",  group: "session" },
+  { id: "session-approve", label: "Approve",         group: "session" },
+  { id: "session-expired", label: "Session Expired", group: "session" },
+  { id: "session-reauth",  label: "Re-authenticate", group: "session" },
+
+  // Activity
+  { id: "activity-list",   label: "Activity",    group: "activity" },
+  { id: "activity-detail", label: "Transaction", group: "activity" },
+  { id: "activity-filter", label: "Filter",      group: "activity" },
+
+  // Settings
+  { id: "settings",                  label: "Settings",     group: "settings" },
+  { id: "settings-account",          label: "Account",      group: "settings" },
+  { id: "settings-security",         label: "Security",     group: "settings" },
+  { id: "settings-notifications",    label: "Notifications", group: "settings" },
+  { id: "settings-address-book",     label: "Address Book", group: "settings" },
+  { id: "settings-disconnect",       label: "Disconnect",   group: "settings" },
+  { id: "settings-disconnect-confirm", label: "Confirm Disconnect", group: "settings" },
+
+  // Security
+  { id: "security-keys",            label: "Keys",           group: "security" },
+  { id: "security-key-detail",      label: "Key Details",    group: "security" },
+  { id: "security-backup",          label: "Backup",         group: "security" },
+  { id: "security-backup-confirm",  label: "Confirm Backup", group: "security" },
+  { id: "security-recovery",        label: "Recovery",       group: "security" },
+  { id: "security-recovery-verify", label: "Verify Recovery", group: "security" },
+
+  // Address book
+  { id: "address-book",        label: "Address Book",  group: "address-book" },
+  { id: "address-book-add",    label: "Add Contact",   group: "address-book" },
+  { id: "address-book-scan",   label: "Scan QR",       group: "address-book" },
+  { id: "address-book-select", label: "Select Contact", group: "address-book" },
+];
 
 /** Maps each step to its natural "next" step. */
 export const STEP_NEXT: Partial<Record<StepId, StepId>> = {
-  "email":         "email-confirm",
-  "phone":         "phone-confirm",
-  "passkey":       "passkey-confirm",
-  "wallet-select": "wallet-confirm",
+  // Onboarding
+  "welcome":              "connect-wallet",
+  "connect-wallet":       "wallet-select",
+
+  // Wallet
+  "wallet-select":        "wallet-approve",
+  "wallet-approve":       "wallet-connected",
+
+  // Smart account
+  "wallet-connected":      "smart-account-create",
+  "smart-account-create":  "smart-account-confirm",
+  "smart-account-confirm": "smart-account-success",
+  "smart-account-success": "wallet-home",
+
+  // Buy
+  "buy-enter-amount":   "buy-select-payment",
+  "buy-select-payment": "buy-review",
+  "buy-review":         "buy-confirm",
+  "buy-confirm":        "buy-processing",
+  "buy-processing":     "buy-success",
+
+  // Receive
+  "receive-select-asset": "receive-qr",
+  "receive-enter-amount": "receive-share",
+  "receive-share":        "receive-waiting",
+  "receive-waiting":      "receive-detected",
+  "receive-detected":     "receive-success",
+
+  // CEX
+  "cex-instructions": "cex-copy-address",
+  "cex-copy-address":  "cex-waiting",
+  "cex-waiting":       "cex-detected",
+  "cex-detected":      "cex-processing",
+  "cex-processing":    "cex-success",
+
+  // Bridge
+  "bridge-connect":      "bridge-select-chain",
+  "bridge-select-chain": "bridge-enter-amount",
+  "bridge-enter-amount": "bridge-confirm",
+  "bridge-confirm":      "bridge-processing",
+  "bridge-processing":   "bridge-success",
+
+  // Request
+  "request-generate": "request-share",
+  "request-share":    "request-waiting",
+  "request-waiting":  "request-success",
+
+  // Send
+  "send-enter-address":  "send-enter-amount",
+  "send-select-contact": "send-enter-amount",
+  "send-scan-qr":        "send-enter-amount",
+  "send-select-token":   "send-enter-amount",
+  "send-enter-amount":   "send-review",
+  "send-review":         "send-confirm",
+  "send-confirm":        "send-success",
+
+  // Swap
+  "swap-select-token-in":  "swap-select-token-out",
+  "swap-select-token-out": "swap-enter-amount",
+  "swap-enter-amount":     "swap-review",
+  "swap-review":           "swap-confirm",
+  "swap-confirm":          "swap-success",
+
+  // dApp
+  "dapp-transaction":  "dapp-success",
+  "dapp-sign-message": "dapp-success",
+  "dapp-batch-preview": "dapp-success",
+
+  // Session
+  "session-expired": "session-reauth",
+  "session-reauth":  "session-active",
+
+  // Settings
+  "settings-disconnect": "settings-disconnect-confirm",
+
+  // Security
+  "security-backup":          "security-backup-confirm",
+  "security-recovery":        "security-recovery-verify",
+
+  // Address book
+  "address-book-scan": "address-book-add",
 };
 
 export const SOCIALS: SocialProvider[] = [
-  { id: "google",    name: "Google",    icon: "google"    },
-  { id: "discord",   name: "Discord",   icon: "discord"   },
-  { id: "github",    name: "Github",    icon: "github"    },
-  { id: "apple",     name: "Apple",     icon: "apple"     },
+  { id: "google",    name: "Google",    icon: "google" },
+  { id: "discord",   name: "Discord",   icon: "discord" },
+  { id: "github",    name: "Github",    icon: "github" },
+  { id: "apple",     name: "Apple",     icon: "apple" },
   { id: "farcaster", name: "Farcaster", icon: "farcaster" },
 ];
 
 export const WALLETS: Wallet[] = [
-  { id: "metamask",       name: "MetaMask",       icon: "metamask"       },
-  { id: "coinbase-wallet",name: "Coinbase Wallet",icon: "coinbase"       },
-  { id: "phantom",        name: "Phantom",        icon: "phantom"        },
-  { id: "rainbow-wallet", name: "Rainbow Wallet", icon: "rainbow-wallet" },
-  { id: "other-wallets",  name: "Other Wallets",  icon: "other-wallets"  },
+  { id: "metamask",        name: "MetaMask",       icon: "metamask" },
+  { id: "coinbase-wallet", name: "Coinbase Wallet", icon: "coinbase" },
+  { id: "phantom",         name: "Phantom",        icon: "phantom" },
+  { id: "other-wallets",   name: "Other Wallets",  icon: "other-wallets" },
 ];
+
+/** Helper to get a step by id */
+export function getStep(id: StepId): Step | undefined {
+  return STEPS.find((s) => s.id === id);
+}
+
+/** Helper to get steps by group */
+export function getStepsByGroup(group: StepGroup): Step[] {
+  return STEPS.filter((s) => s.group === group);
+}

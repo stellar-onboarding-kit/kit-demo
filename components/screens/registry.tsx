@@ -1,12 +1,18 @@
 import type { StepId } from "@/types/auth";
 import type { ReactNode } from "react";
+import type { UseHistoryReturn } from "@/hooks/use-history";
+
+/**
+ * Context passed to every screen renderer.
+ * Extend this as new flows need shared state.
+ */
+export interface ScreenContext {
+  nav: UseHistoryReturn;
+  selectedWalletId: string | null;
+  selectWallet: (walletId: string) => void;
+}
 
 export type ScreenRenderer = (ctx: ScreenContext) => ReactNode;
-
-export interface ScreenContext {
-  selectWallet: (walletId: string) => void;
-  selectedWalletId: string | null;
-}
 
 const registry = new Map<StepId, ScreenRenderer>();
 

@@ -36,3 +36,5 @@ export function useHistory(initial: StepId = "email") {
 
   return { current, canGoBack, push, pushNext, back, replace, reset };
 }
+
+export type UseHistoryReturn = ReturnType<typeof useHistory>;

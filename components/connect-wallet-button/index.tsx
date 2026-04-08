@@ -11,11 +11,10 @@ import { Button } from "@/components/ui/button";
 import { useConnectModal } from "@/hooks/use-connect-modal";
 import { getScreen } from "@/components/screens/registry";
 
-// Register all screens (side-effect import)
 import "@/components/screens";
 
 const ConnectWalletButton = () => {
-  const { nav, heading, selectedWalletId, selectWallet, handleOpenChange } =
+  const { nav, heading, screenContext, handleOpenChange } =
     useConnectModal("wallet-select");
 
   const renderer = getScreen(nav.current);
@@ -30,7 +29,7 @@ const ConnectWalletButton = () => {
           onBack={nav.canGoBack ? nav.back : undefined}
         />
         <ModalBody pageKey={nav.current}>
-          {renderer?.({ selectWallet, selectedWalletId })}
+          {renderer?.(screenContext)}
         </ModalBody>
       </ModalContent>
     </Modal>

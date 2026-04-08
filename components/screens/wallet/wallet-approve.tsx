@@ -2,11 +2,11 @@ import { ModalDescription, ModalTitle } from "@/components/ui/modal";
 import { Spinner } from "@/components/ui/spinner";
 import { WALLETS } from "@/types/auth";
 
-interface WalletConfirmProps {
+interface WalletApproveProps {
   walletId: string | null;
 }
 
-export default function WalletConfirm({ walletId }: WalletConfirmProps) {
+export default function WalletApprove({ walletId }: WalletApproveProps) {
   const wallet = WALLETS.find((w) => w.id === walletId);
 
   return (
@@ -22,8 +22,7 @@ export default function WalletConfirm({ walletId }: WalletConfirmProps) {
       />
       <ModalTitle>Connecting...</ModalTitle>
       <ModalDescription>
-        Accept the connection request in{" "}
-        {wallet?.name ?? "your wallet"}.
+        Accept the connection request in {wallet?.name ?? "your wallet"}.
       </ModalDescription>
     </div>
   );

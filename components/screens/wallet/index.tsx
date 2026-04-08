@@ -1,11 +1,11 @@
 import { registerScreen } from "@/components/screens/registry";
 import WalletSelect from "./wallet-select";
-import WalletConfirm from "./wallet-confirm";
+import WalletApprove from "./wallet-approve";
 
 registerScreen("wallet-select", (ctx) => (
   <WalletSelect onSelect={ctx.selectWallet} />
 ));
 
-registerScreen("wallet-confirm", (ctx) => (
-  <WalletConfirm walletId={ctx.selectedWalletId} />
+registerScreen("wallet-approve", (ctx) => (
+  <WalletApprove walletId={ctx.selectedWalletId} />
 ));
