@@ -1,5 +1,4 @@
-import ConnectWalletButton from "@/components/auth/connect-wallet-button";
-import { Button } from "@/components/ui/button";
+import ConnectWalletButton from "@/components/connect-wallet-button";
 
 export default function Home() {
   return (
