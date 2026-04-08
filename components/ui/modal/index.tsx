@@ -1,8 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Dialog } from "@base-ui/react/dialog";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, type Variants, type HTMLMotionProps } from "motion/react";
 import { cn } from "@/lib/utils";
+import { transitions, ease } from "@/lib/constants";
+
 import type { ModalProps, ModalContentProps, ModalFooterProps } from "./types";
+
 
 /* ------------------------------------------------------------------ */
 /*  Icons                                                              */
@@ -72,45 +75,6 @@ function InfoIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Animation presets for page transitions                             */
-/* ------------------------------------------------------------------ */
-
-const ease = [0.26, 0.08, 0.25, 1] as const;
-
-export const pageTransitions = {
-  fade: {
-    initial: { opacity: 0 },
-    animate: { opacity: 1, transition: { duration: 0.12, ease } },
-    exit: { opacity: 0, position: "absolute" as const, transition: { duration: 0.1, ease } },
-  },
-  "fade-scale": {
-    initial: { opacity: 0, scale: 0.97 },
-    animate: { opacity: 1, scale: 1, transition: { duration: 0.12, ease } },
-    exit: { opacity: 0, scale: 0.95, position: "absolute" as const, transition: { duration: 0.1, ease } },
-  },
-  "slide-left": {
-    initial: { opacity: 0, x: 24 },
-    animate: { opacity: 1, x: 0, transition: { duration: 0.15, ease } },
-    exit: { opacity: 0, x: -24, position: "absolute" as const, transition: { duration: 0.12, ease } },
-  },
-  "slide-right": {
-    initial: { opacity: 0, x: -24 },
-    animate: { opacity: 1, x: 0, transition: { duration: 0.15, ease } },
-    exit: { opacity: 0, x: 24, position: "absolute" as const, transition: { duration: 0.12, ease } },
-  },
-  "zoom-out-fade": {
-    initial: { opacity: 0, scale: 1.05 },
-    animate: { opacity: 1, scale: 1, transition: { duration: 0.12, ease } },
-    exit: { opacity: 0, scale: 0.9, position: "absolute" as const, transition: { duration: 0.1, ease } },
-  },
-} as const;
-
-export type PageTransition = keyof typeof pageTransitions;
-
-/* ------------------------------------------------------------------ */
-/*  Primitives                                                         */
-/* ------------------------------------------------------------------ */
 
 function Modal({ ...props }: ModalProps) {
   return <Dialog.Root data-slot="modal" {...props} />;
@@ -305,13 +269,13 @@ function ModalBody({
   className,
   children,
   pageKey,
-  transition: transitionProp = "fade-scale",
+  transitionType = "fade-scale",
   customTransition,
   ...props
-}: React.ComponentProps<"div"> & {
+}: Omit<HTMLMotionProps<"div">, "transition"> & {
   pageKey?: string;
-  transition?: PageTransition;
-  customTransition?: Record<string, unknown>;
+  transitionType?: keyof typeof transitions;
+  customTransition?: Variants;
 }) {
   const [height, setHeight] = useState<number | undefined>(undefined);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -334,7 +298,7 @@ function ModalBody({
     return () => observer.disconnect();
   }, [updateHeight]);
 
-  const variants = customTransition ?? pageTransitions[transitionProp];
+  const variants = customTransition ?? transitions[transitionType];
 
   return (
     <motion.div
@@ -360,52 +324,6 @@ function ModalBody({
     </motion.div>
   );
 }
-
-/* ------------------------------------------------------------------ */
-/*  Error banner — slides in from top                                  */
-/* ------------------------------------------------------------------ */
-
-function ModalError({
-  message,
-  onDismiss,
-}: {
-  message?: string | null;
-  onDismiss?: () => void;
-}) {
-  return (
-    <AnimatePresence>
-      {message && (
-        <motion.div
-          className={cn(
-            "pointer-events-auto absolute left-1/2 top-16 z-[-1] w-[var(--width,100%)] -translate-x-1/2",
-            "rounded-[20px] bg-(--ck-body-color-danger) px-6 pb-20 pt-6",
-            "text-sm font-medium leading-5 text-white"
-          )}
-          role="alert"
-          initial={{ y: "10%", x: "-50%" }}
-          animate={{ y: "-100%" }}
-          exit={{ y: "100%" }}
-          transition={{ duration: 0.2, ease: "easeInOut" }}
-        >
-          <span>{message}</span>
-          {onDismiss && (
-            <button
-              onClick={onDismiss}
-              className="absolute right-6 top-6 cursor-pointer"
-              aria-label="Dismiss error"
-            >
-              <CloseIcon />
-            </button>
-          )}
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Footer / Disclaimer                                                */
-/* ------------------------------------------------------------------ */
 
 function ModalFooter({
   className,
@@ -434,33 +352,6 @@ function ModalFooter({
   );
 }
 
-function ModalDisclaimer({ children }: { children: React.ReactNode }) {
-  return (
-    <AnimatePresence>
-      <motion.div
-        className={cn(
-          "pointer-events-auto absolute bottom-0 left-1/2 z-[9] w-[var(--width,100%)] -translate-x-1/2",
-          "origin-bottom rounded-b-[var(--ck-border-radius,20px)]",
-          "bg-[var(--ck-body-disclaimer-background,var(--ck-body-background-secondary))]",
-          "shadow-[var(--ck-body-disclaimer-box-shadow)]",
-          "transition-[width] duration-200 ease-in-out"
-        )}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-      >
-        <div className="flex items-center justify-center px-10 py-4 text-center text-[var(--ck-body-disclaimer-font-size,13px)] font-[var(--ck-body-disclaimer-font-weight,400)] leading-[19px] text-[var(--ck-body-disclaimer-color,var(--ck-body-color-muted))]">
-          {children}
-        </div>
-      </motion.div>
-    </AnimatePresence>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Title / Description                                                */
-/* ------------------------------------------------------------------ */
 
 function ModalTitle({ className, ...props }: Dialog.Title.Props) {
   return (
@@ -474,6 +365,7 @@ function ModalTitle({ className, ...props }: Dialog.Title.Props) {
     />
   );
 }
+
 
 function ModalDescription({ className, ...props }: Dialog.Description.Props) {
   return (
@@ -489,9 +381,6 @@ function ModalDescription({ className, ...props }: Dialog.Description.Props) {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  OrDivider                                                          */
-/* ------------------------------------------------------------------ */
 
 function OrDivider({ children }: { children?: React.ReactNode }) {
   return (
@@ -503,9 +392,6 @@ function OrDivider({ children }: { children?: React.ReactNode }) {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Exports                                                            */
-/* ------------------------------------------------------------------ */
 
 export {
   Modal,
@@ -513,8 +399,6 @@ export {
   ModalClose,
   ModalContent,
   ModalDescription,
-  ModalDisclaimer,
-  ModalError,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
