@@ -152,7 +152,7 @@ export const STEPS: Step[] = [
   { id: "buy-enter-amount",       label: "Enter Amount",         group: "buy" },
   { id: "buy-select-payment",     label: "Select Payment",       group: "buy" },
   { id: "buy-review",             label: "Review Purchase",      group: "buy" },
-  { id: "buy-confirm",            label: "Confirm Purchase",     group: "buy" },
+  { id: "buy-confirm",            label: "Processing",           group: "buy" },
   { id: "buy-success",            label: "Purchase Complete",    group: "buy" },
   { id: "receive-select-asset",   label: "Select Asset",         group: "receive" },
   { id: "receive-qr",             label: "Receive",              group: "receive" },

@@ -29,8 +29,12 @@ const PROVIDER_ICONS: Record<string, string> = {
 export default function BuyConfirm({ amount, provider, onSuccess, onRetry }: BuyConfirmProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasRun, setHasRun] = useState(false);
 
   const handlePurchase = async () => {
+    if (hasRun) return;
+    
+    setHasRun(true);
     setLoading(true);
     setError(null);
 
@@ -39,12 +43,14 @@ export default function BuyConfirm({ amount, provider, onSuccess, onRetry }: Buy
 
       if (Math.random() < 0.1) {
         setError("Payment failed. Please try again.");
+        setHasRun(false);
         return;
       }
 
       onSuccess();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Purchase failed");
+      setHasRun(false);
     } finally {
       setLoading(false);
     }
@@ -87,10 +93,6 @@ export default function BuyConfirm({ amount, provider, onSuccess, onRetry }: Buy
           Waiting for the transaction to confirm
         </ModalDescription>
       </div>
-      
-      <Button variant="outline" onClick={handlePurchase} className="mt-2">
-        🔄 Try again
-      </Button>
     </div>
   );
 }
