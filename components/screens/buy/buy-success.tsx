@@ -20,7 +20,7 @@ export default function BuySuccess({ amount, onDone }: BuySuccessProps) {
       <ModalDescription>
         Your crypto has been added to your wallet.
       </ModalDescription>
-      <Button onClick={onDone} className="w-full">Done</Button>
+      <Button onClick={onDone} className="w-full mt-2">Done</Button>
     </div>
   );
 }
