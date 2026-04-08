@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface AuthStore {
   open: boolean;
@@ -9,15 +10,33 @@ interface AuthStore {
   setConnectedAddress: (address: string | null) => void;
   isConnected: boolean;
   setIsConnected: (value: boolean) => void;
+  disconnect: () => void;
 }
 
-export const useAuthStore = create<AuthStore>((set) => ({
-  open: false,
-  setOpen: (open) => set({ open }),
-  selectedWalletId: null,
-  setSelectedWalletId: (id) => set({ selectedWalletId: id }),
-  connectedAddress: null,
-  setConnectedAddress: (address) => set({ connectedAddress: address }),
-  isConnected: false,
-  setIsConnected: (value) => set({ isConnected: value }),
-}));
+export const useAuthStore = create<AuthStore>()(
+  persist(
+    (set) => ({
+      open: false,
+      setOpen: (open) => set({ open }),
+      selectedWalletId: null,
+      setSelectedWalletId: (id) => set({ selectedWalletId: id }),
+      connectedAddress: null,
+      setConnectedAddress: (address) => set({ connectedAddress: address }),
+      isConnected: false,
+      setIsConnected: (value) => set({ isConnected: value }),
+      disconnect: () => set({ 
+        connectedAddress: null, 
+        isConnected: false, 
+        selectedWalletId: null 
+      }),
+    }),
+    {
+      name: "stellar-wallet-auth",
+      partialize: (state) => ({
+        connectedAddress: state.connectedAddress,
+        isConnected: state.isConnected,
+        selectedWalletId: state.selectedWalletId,
+      }),
+    }
+  )
+);

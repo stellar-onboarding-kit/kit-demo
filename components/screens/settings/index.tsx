@@ -12,9 +12,7 @@ registerScreen("settings", (ctx) => (
 registerScreen("settings-disconnect", (ctx) => (
   <SettingsDisconnect
     onConfirm={() => {
-      useAuthStore.getState().setIsConnected(false);
-      useAuthStore.getState().setConnectedAddress(null);
-      useAuthStore.getState().setSelectedWalletId(null);
+      useAuthStore.getState().disconnect();
       useWalletStore.getState().setBalances([]);
       useWalletStore.getState().setPayments([]);
       ctx.nav.push("settings-disconnect-confirm");
