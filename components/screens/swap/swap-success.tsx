@@ -2,19 +2,23 @@ import { ModalDescription, ModalTitle } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 
 interface SwapSuccessProps {
+  txHash: string | null;
   onDone: () => void;
 }
 
-export default function SwapSuccess({ onDone }: SwapSuccessProps) {
+export default function SwapSuccess({ txHash, onDone }: SwapSuccessProps) {
   return (
     <div className="flex flex-col items-center gap-6 py-8 text-center">
       <ModalTitle>Swap Complete</ModalTitle>
+      {txHash && (
+        <code className="w-full truncate rounded-xl bg-(--ck-body-background-secondary,#f6f7f9) px-4 py-3 text-center text-xs text-(--ck-body-color)">
+          {txHash}
+        </code>
+      )}
       <ModalDescription>
-        Your tokens have been swapped successfully.
+        Your tokens have been swapped on the Stellar network.
       </ModalDescription>
-      <Button onClick={onDone} className="w-full">
-        Done
-      </Button>
+      <Button onClick={onDone} className="w-full">Done</Button>
     </div>
   );
 }

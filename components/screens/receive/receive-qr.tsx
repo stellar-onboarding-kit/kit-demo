@@ -1,12 +1,13 @@
 import { ModalDescription, ModalTitle } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
+import { truncateAddress } from "@/lib/stellar";
 
 interface ReceiveQrProps {
-  address?: string;
+  address: string | null;
   onCopy: () => void;
 }
 
-export default function ReceiveQr({ address = "—", onCopy }: ReceiveQrProps) {
+export default function ReceiveQr({ address, onCopy }: ReceiveQrProps) {
   return (
     <div className="flex flex-col items-center gap-4 py-4 text-center">
       <ModalTitle>Receive</ModalTitle>
@@ -14,10 +15,10 @@ export default function ReceiveQr({ address = "—", onCopy }: ReceiveQrProps) {
         <span className="text-xs text-(--ck-body-color-muted)">QR Code</span>
       </div>
       <ModalDescription>
-        Scan this QR code or copy the address below.
+        Scan this QR code or copy your Stellar address.
       </ModalDescription>
       <code className="w-full truncate rounded-xl bg-(--ck-body-background-secondary,#f6f7f9) px-4 py-3 text-center text-xs text-(--ck-body-color)">
-        {address}
+        {address ? truncateAddress(address, 8) : "—"}
       </code>
       <Button variant="outline" onClick={onCopy} className="w-full">
         Copy Address

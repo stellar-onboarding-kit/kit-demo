@@ -7,25 +7,59 @@ import SwapSuccess from "./swap-success";
 import SwapSlippageWarning from "./swap-slippage-warning";
 
 registerScreen("swap-select-token-in", (ctx) => (
-  <SwapSelectToken direction="in" onSelect={() => ctx.nav.pushNext()} />
+  <SwapSelectToken
+    direction="in"
+    current={ctx.swap.sellAsset}
+    onSelect={(token) => {
+      ctx.setSwap({ sellAsset: token });
+      ctx.nav.pushNext();
+    }}
+  />
 ));
 
 registerScreen("swap-select-token-out", (ctx) => (
-  <SwapSelectToken direction="out" onSelect={() => ctx.nav.pushNext()} />
+  <SwapSelectToken
+    direction="out"
+    current={ctx.swap.buyAsset}
+    onSelect={(token) => {
+      ctx.setSwap({ buyAsset: token });
+      ctx.nav.pushNext();
+    }}
+  />
 ));
 
 registerScreen("swap-enter-amount", (ctx) => (
-  <SwapEnterAmount onNext={() => ctx.nav.pushNext()} />
+  <SwapEnterAmount
+    value={ctx.swap.amount}
+    sellAsset={ctx.swap.sellAsset}
+    buyAsset={ctx.swap.buyAsset}
+    onChange={(v) => ctx.setSwap({ amount: v })}
+    onNext={() => ctx.nav.pushNext()}
+  />
 ));
 
 registerScreen("swap-review", (ctx) => (
-  <SwapReview onConfirm={() => ctx.nav.pushNext()} />
+  <SwapReview
+    sellAsset={ctx.swap.sellAsset}
+    buyAsset={ctx.swap.buyAsset}
+    amount={ctx.swap.amount}
+    slippage={ctx.swap.slippage}
+    onConfirm={() => {
+      ctx.prepareSwapXdr();
+      ctx.nav.pushNext();
+    }}
+  />
 ));
 
-registerScreen("swap-confirm", () => <SwapConfirm />);
+registerScreen("swap-confirm", (ctx) => (
+  <SwapConfirm loading={ctx.loading} error={ctx.error} />
+));
 
 registerScreen("swap-success", (ctx) => (
-  <SwapSuccess onDone={() => ctx.nav.replace("wallet-home")} />
+  <SwapSuccess
+    txHash={ctx.txHash}
+    onDone={() => ctx.nav.replace("wallet-home")}
+  />
 ));
 
 registerScreen("swap-slippage-warning", (ctx) => (

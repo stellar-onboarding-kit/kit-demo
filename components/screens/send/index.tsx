@@ -11,19 +11,41 @@ registerScreen("send-select-type", (ctx) => (
 ));
 
 registerScreen("send-enter-address", (ctx) => (
-  <SendEnterAddress onNext={() => ctx.nav.pushNext()} />
+  <SendEnterAddress
+    value={ctx.send.destination}
+    onChange={(v) => ctx.setSend({ destination: v })}
+    onNext={() => ctx.nav.pushNext()}
+  />
 ));
 
 registerScreen("send-enter-amount", (ctx) => (
-  <SendEnterAmount onNext={() => ctx.nav.pushNext()} />
+  <SendEnterAmount
+    value={ctx.send.amount}
+    asset={ctx.send.asset}
+    onChange={(v) => ctx.setSend({ amount: v })}
+    onNext={() => ctx.nav.pushNext()}
+  />
 ));
 
 registerScreen("send-review", (ctx) => (
-  <SendReview onConfirm={() => ctx.nav.pushNext()} />
+  <SendReview
+    to={ctx.send.destination}
+    amount={ctx.send.amount}
+    asset={ctx.send.asset}
+    onConfirm={() => {
+      ctx.prepareSendXdr();
+      ctx.nav.pushNext();
+    }}
+  />
 ));
 
-registerScreen("send-confirm", () => <SendConfirm />);
+registerScreen("send-confirm", (ctx) => (
+  <SendConfirm loading={ctx.loading} error={ctx.error} />
+));
 
 registerScreen("send-success", (ctx) => (
-  <SendSuccess onDone={() => ctx.nav.replace("wallet-home")} />
+  <SendSuccess
+    txHash={ctx.txHash}
+    onDone={() => ctx.nav.replace("wallet-home")}
+  />
 ));

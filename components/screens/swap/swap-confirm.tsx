@@ -1,13 +1,18 @@
 import { ModalDescription, ModalTitle } from "@/components/ui/modal";
 import { Spinner } from "@/components/ui/spinner";
 
-export default function SwapConfirm() {
+interface SwapConfirmProps {
+  loading: boolean;
+  error: string | null;
+}
+
+export default function SwapConfirm({ loading, error }: SwapConfirmProps) {
   return (
     <div className="flex flex-col items-center gap-4 py-8 text-center">
-      <Spinner shape="circle" loading />
-      <ModalTitle>Swapping...</ModalTitle>
+      {loading && <Spinner shape="circle" loading />}
+      <ModalTitle>{error ? "Swap Failed" : "Swapping..."}</ModalTitle>
       <ModalDescription>
-        Your swap is being processed.
+        {error ?? "Building and submitting your swap transaction."}
       </ModalDescription>
     </div>
   );

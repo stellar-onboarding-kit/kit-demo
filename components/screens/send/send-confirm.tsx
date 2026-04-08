@@ -1,13 +1,18 @@
 import { ModalDescription, ModalTitle } from "@/components/ui/modal";
 import { Spinner } from "@/components/ui/spinner";
 
-export default function SendConfirm() {
+interface SendConfirmProps {
+  loading: boolean;
+  error: string | null;
+}
+
+export default function SendConfirm({ loading, error }: SendConfirmProps) {
   return (
     <div className="flex flex-col items-center gap-4 py-8 text-center">
-      <Spinner shape="circle" loading />
-      <ModalTitle>Sending...</ModalTitle>
+      {loading && <Spinner shape="circle" loading />}
+      <ModalTitle>{error ? "Failed" : "Sending..."}</ModalTitle>
       <ModalDescription>
-        Your transaction is being processed.
+        {error ?? "Your transaction is being signed and submitted."}
       </ModalDescription>
     </div>
   );

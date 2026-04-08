@@ -7,8 +7,13 @@ registerScreen("receive-select-asset", (ctx) => (
   <ReceiveSelectAsset onSelect={() => ctx.nav.pushNext()} />
 ));
 
-registerScreen("receive-qr", () => (
-  <ReceiveQr onCopy={() => {}} />
+registerScreen("receive-qr", (ctx) => (
+  <ReceiveQr
+    address={ctx.address}
+    onCopy={() => {
+      if (ctx.address) navigator.clipboard.writeText(ctx.address);
+    }}
+  />
 ));
 
 registerScreen("receive-success", (ctx) => (
