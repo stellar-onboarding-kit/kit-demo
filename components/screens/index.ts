@@ -3,7 +3,6 @@ import "./wallet";
 import "./smart-account";
 import "./funding";
 import "./buy";
-import "./cex";
 import "./send";
 import "./receive";
 import "./swap";

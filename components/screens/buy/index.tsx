@@ -36,6 +36,7 @@ registerScreen("buy-select-payment", (ctx) => (
         ctx.nav.push("buy-confirm");
       }
     }}
+    onChangeProvider={() => ctx.nav.back()}
   />
 ));
 
@@ -61,8 +62,8 @@ registerScreen("buy-success", (ctx) => (
     onDone={() => {
       buyState.amount = "";
       buyState.provider = "";
-      ctx.nav.replace("wallet-home");
       ctx.fetchBalances();
+      ctx.closeModal();
     }}
   />
 ));

@@ -304,7 +304,6 @@ export const WALLETS: Wallet[] = [
 export const FUNDING_ROUTES: RouteItem[] = [
   { id: "buy-enter-amount",     label: "Buy Crypto",     description: "Purchase crypto with card or bank" },
   { id: "receive-select-asset", label: "Receive",        description: "Receive from a Stellar wallet" },
-  { id: "cex-instructions",     label: "Top Up",         description: "Transfer from a centralized exchange" },
 ];
 
 export const SEND_TYPES: RouteItem[] = [

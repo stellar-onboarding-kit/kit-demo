@@ -37,6 +37,7 @@ export interface ScreenContext {
   prepareSendXdr: () => unknown;
   prepareSwapXdr: () => unknown;
   setTxHash: (hash: string | null) => void;
+  closeModal: () => void;
 }
 
 export type ScreenRenderer = (ctx: ScreenContext) => ReactNode;
