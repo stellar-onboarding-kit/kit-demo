@@ -34,7 +34,7 @@ registerScreen("wallet-home", (ctx) => (
     balances={ctx.balances}
     loading={ctx.loading}
     fetchBalances={ctx.fetchBalances}
-    onBuy={() => ctx.nav.push("buy-enter-amount")}
+    onBuy={() => ctx.nav.push("funding-hub")}
     onSend={() => ctx.nav.push("send-select-type")}
     onSwap={() => ctx.nav.push("swap-select-token-in")}
     onCopy={() => {

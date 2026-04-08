@@ -302,11 +302,9 @@ export const WALLETS: Wallet[] = [
 ];
 
 export const FUNDING_ROUTES: RouteItem[] = [
-  { id: "buy-enter-amount",     label: "Buy",           description: "Purchase crypto with card or bank" },
+  { id: "buy-enter-amount",     label: "Buy Crypto",     description: "Purchase crypto with card or bank" },
   { id: "receive-select-asset", label: "Receive",        description: "Receive from a Stellar wallet" },
-  { id: "cex-instructions",     label: "From Exchange",  description: "Transfer from a centralized exchange" },
-  { id: "bridge-connect",       label: "Bridge",         description: "Bridge from another chain" },
-  { id: "request-generate",     label: "Request",        description: "Request payment from someone" },
+  { id: "cex-instructions",     label: "Top Up",         description: "Transfer from a centralized exchange" },
 ];
 
 export const SEND_TYPES: RouteItem[] = [
