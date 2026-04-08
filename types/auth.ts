@@ -17,7 +17,6 @@ export type StepId =
   | "buy-select-payment"
   | "buy-review"
   | "buy-confirm"
-  | "buy-processing"
   | "buy-success"
   | "receive-select-asset"
   | "receive-qr"
@@ -154,7 +153,6 @@ export const STEPS: Step[] = [
   { id: "buy-select-payment",     label: "Select Payment",       group: "buy" },
   { id: "buy-review",             label: "Review Purchase",      group: "buy" },
   { id: "buy-confirm",            label: "Confirm Purchase",     group: "buy" },
-  { id: "buy-processing",         label: "Processing",           group: "buy" },
   { id: "buy-success",            label: "Purchase Complete",    group: "buy" },
   { id: "receive-select-asset",   label: "Select Asset",         group: "receive" },
   { id: "receive-qr",             label: "Receive",              group: "receive" },
@@ -242,8 +240,7 @@ export const STEP_NEXT: Partial<Record<StepId, StepId>> = {
   "buy-enter-amount":     "buy-select-payment",
   "buy-select-payment":   "buy-review",
   "buy-review":           "buy-confirm",
-  "buy-confirm":          "buy-processing",
-  "buy-processing":       "buy-success",
+  "buy-confirm":          "buy-success",
   "receive-select-asset": "receive-qr",
   "receive-enter-amount": "receive-share",
   "receive-share":        "receive-waiting",
