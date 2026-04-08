@@ -2,6 +2,7 @@ import "./onboarding";
 import "./wallet";
 import "./smart-account";
 import "./funding";
+import "./buy";
 import "./send";
 import "./receive";
 import "./swap";

@@ -10,8 +10,8 @@ interface WalletHomeProps {
   balances: StellarBalance[];
   loading: boolean;
   fetchBalances: () => Promise<void>;
+  onBuy: () => void;
   onSend: () => void;
-  onReceive: () => void;
   onSwap: () => void;
   onCopy: () => void;
 }
@@ -21,8 +21,8 @@ export default function WalletHome({
   balances,
   loading,
   fetchBalances,
+  onBuy,
   onSend,
-  onReceive,
   onSwap,
   onCopy,
 }: WalletHomeProps) {
@@ -44,9 +44,9 @@ export default function WalletHome({
       </div>
 
       <div className="flex gap-2">
+        <Button onClick={onBuy} className="flex-1">Buy</Button>
         <Button onClick={onSend} className="flex-1">Send</Button>
         <Button onClick={onSwap} className="flex-1">Swap</Button>
-        <Button onClick={onReceive} variant="outline" className="flex-1">Receive</Button>
         <Button onClick={onCopy} variant="outline" className="px-3">📋</Button>
       </div>
 
