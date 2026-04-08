@@ -1,17 +1,10 @@
 import { ModalTitle } from "@/components/ui/modal";
+import { SETTINGS_ITEMS } from "@/types/auth";
 import type { StepId } from "@/types/auth";
 
 interface SettingsMainProps {
   onSelect: (route: StepId) => void;
 }
-
-const SETTINGS_ITEMS: { id: StepId; label: string }[] = [
-  { id: "settings-account",       label: "Account" },
-  { id: "settings-security",      label: "Security" },
-  { id: "settings-notifications", label: "Notifications" },
-  { id: "settings-address-book",  label: "Address Book" },
-  { id: "settings-disconnect",    label: "Disconnect Wallet" },
-];
 
 export default function SettingsMain({ onSelect }: SettingsMainProps) {
   return (

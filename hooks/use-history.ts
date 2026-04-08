@@ -2,11 +2,7 @@ import { useCallback, useState } from "react";
 import type { StepId } from "@/types/auth";
 import { STEP_NEXT } from "@/types/auth";
 
-/**
- * Manages screen navigation with a history stack.
- * "back" always returns to wherever the user came from.
- */
-export function useHistory(initial: StepId = "email") {
+export function useHistory(initial: StepId = "welcome") {
   const [history, setHistory] = useState<StepId[]>([initial]);
 
   const current = history[0];
@@ -25,7 +21,6 @@ export function useHistory(initial: StepId = "email") {
     setHistory((prev) => (prev.length > 1 ? prev.slice(1) : prev));
   }, []);
 
-  /** Jump to a screen and clear history (e.g. switching tabs). */
   const replace = useCallback((id: StepId) => {
     setHistory([id]);
   }, []);

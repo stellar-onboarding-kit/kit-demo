@@ -2,10 +2,6 @@ import type { StepId } from "@/types/auth";
 import type { ReactNode } from "react";
 import type { UseHistoryReturn } from "@/hooks/use-history";
 
-/**
- * Context passed to every screen renderer.
- * Extend this as new flows need shared state.
- */
 export interface ScreenContext {
   nav: UseHistoryReturn;
   selectedWalletId: string | null;

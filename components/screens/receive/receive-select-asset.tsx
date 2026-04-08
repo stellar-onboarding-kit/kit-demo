@@ -1,16 +1,15 @@
 import { ModalTitle } from "@/components/ui/modal";
+import { TOKENS } from "@/types/auth";
 
 interface ReceiveSelectAssetProps {
   onSelect: () => void;
 }
 
-const ASSETS = ["XLM", "USDC", "ETH", "BTC"];
-
 export default function ReceiveSelectAsset({ onSelect }: ReceiveSelectAssetProps) {
   return (
     <div className="flex flex-col gap-3">
       <ModalTitle>Select Asset</ModalTitle>
-      {ASSETS.map((asset) => (
+      {TOKENS.map((asset) => (
         <button
           key={asset}
           onClick={onSelect}

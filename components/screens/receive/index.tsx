@@ -8,7 +8,7 @@ registerScreen("receive-select-asset", (ctx) => (
 ));
 
 registerScreen("receive-qr", () => (
-  <ReceiveQr onCopy={() => navigator.clipboard.writeText("GABCD...WXYZ")} />
+  <ReceiveQr onCopy={() => {}} />
 ));
 
 registerScreen("receive-success", (ctx) => (

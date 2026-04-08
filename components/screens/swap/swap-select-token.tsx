@@ -1,11 +1,10 @@
 import { ModalTitle } from "@/components/ui/modal";
+import { TOKENS } from "@/types/auth";
 
 interface SwapSelectTokenProps {
   direction: "in" | "out";
   onSelect: () => void;
 }
-
-const TOKENS = ["XLM", "USDC", "ETH", "BTC", "EURC"];
 
 export default function SwapSelectToken({ direction, onSelect }: SwapSelectTokenProps) {
   return (

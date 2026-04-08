@@ -1,15 +1,10 @@
 import { ModalTitle } from "@/components/ui/modal";
+import { SEND_TYPES } from "@/types/auth";
 import type { StepId } from "@/types/auth";
 
 interface SendSelectTypeProps {
   onSelect: (type: StepId) => void;
 }
-
-const SEND_TYPES: { id: StepId; label: string; description: string }[] = [
-  { id: "send-enter-address", label: "Wallet Address", description: "Send to an address or ENS" },
-  { id: "send-select-contact", label: "Contact",       description: "Send to a saved contact" },
-  { id: "send-scan-qr",       label: "Scan QR",        description: "Scan a QR code" },
-];
 
 export default function SendSelectType({ onSelect }: SendSelectTypeProps) {
   return (
