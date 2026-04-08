@@ -4,6 +4,7 @@ const NETWORK_PASSPHRASE = process.env.NEXT_PUBLIC_NETWORK_PASSPHRASE ?? "Test S
 export interface StellarBalance {
   asset: string;
   balance: string;
+  usdValue?: string;
 }
 
 export interface StellarTransaction {

@@ -3,6 +3,7 @@ import { useAuthStore } from "@/stores/auth";
 import WalletSelect from "./wallet-select";
 import WalletApprove from "./wallet-approve";
 import WalletConnected from "./wallet-connected";
+import WalletHome from "./wallet-home";
 
 registerScreen("wallet-select", (ctx) => (
   <WalletSelect onSelect={ctx.selectWallet} />
@@ -11,9 +12,8 @@ registerScreen("wallet-select", (ctx) => (
 registerScreen("wallet-approve", (ctx) => (
   <WalletApprove
     walletId={ctx.selectedWalletId}
-    onApproved={() => {
-      const testAddress = "GBZX4364PEPQTDICMIQDZ56K4T75QZCR4NBEYKO6PDRJAHZKGUOJPCXB";
-      useAuthStore.getState().setConnectedAddress(testAddress);
+    onApproved={(address: string) => {
+      useAuthStore.getState().setConnectedAddress(address);
       useAuthStore.getState().setIsConnected(true);
       ctx.nav.push("wallet-connected");
     }}
@@ -25,5 +25,22 @@ registerScreen("wallet-connected", (ctx) => (
   <WalletConnected
     address={ctx.address}
     onContinue={() => ctx.nav.push("smart-account-create")}
+  />
+));
+
+registerScreen("wallet-home", (ctx) => (
+  <WalletHome
+    address={ctx.address}
+    balances={ctx.balances}
+    loading={ctx.loading}
+    fetchBalances={ctx.fetchBalances}
+    onSend={() => ctx.nav.push("send-select-type")}
+    onReceive={() => ctx.nav.push("receive-select-asset")}
+    onSwap={() => ctx.nav.push("swap-select-token-in")}
+    onCopy={() => {
+      if (ctx.address) {
+        navigator.clipboard.writeText(ctx.address);
+      }
+    }}
   />
 ));

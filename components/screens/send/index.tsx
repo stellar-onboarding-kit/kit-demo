@@ -40,12 +40,24 @@ registerScreen("send-review", (ctx) => (
 ));
 
 registerScreen("send-confirm", (ctx) => (
-  <SendConfirm loading={ctx.loading} error={ctx.error} />
+  <SendConfirm
+    destination={ctx.send.destination}
+    amount={ctx.send.amount}
+    asset={ctx.send.asset}
+    onSuccess={(txHash) => {
+      ctx.setTxHash(txHash);
+      ctx.nav.pushNext();
+    }}
+    onRetry={() => ctx.nav.back()}
+  />
 ));
 
 registerScreen("send-success", (ctx) => (
   <SendSuccess
     txHash={ctx.txHash}
-    onDone={() => ctx.nav.replace("wallet-home")}
+    onDone={() => {
+      ctx.nav.replace("wallet-home");
+      ctx.fetchBalances();
+    }}
   />
 ));

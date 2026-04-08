@@ -52,13 +52,25 @@ registerScreen("swap-review", (ctx) => (
 ));
 
 registerScreen("swap-confirm", (ctx) => (
-  <SwapConfirm loading={ctx.loading} error={ctx.error} />
+  <SwapConfirm
+    sellAsset={ctx.swap.sellAsset}
+    buyAsset={ctx.swap.buyAsset}
+    amount={ctx.swap.amount}
+    onSuccess={(txHash, received) => {
+      ctx.setTxHash(txHash);
+      ctx.nav.pushNext();
+    }}
+    onRetry={() => ctx.nav.back()}
+  />
 ));
 
 registerScreen("swap-success", (ctx) => (
   <SwapSuccess
     txHash={ctx.txHash}
-    onDone={() => ctx.nav.replace("wallet-home")}
+    onDone={() => {
+      ctx.nav.replace("wallet-home");
+      ctx.fetchBalances();
+    }}
   />
 ));
 

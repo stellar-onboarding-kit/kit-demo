@@ -36,6 +36,7 @@ export interface ScreenContext {
   fetchPayments: () => Promise<void>;
   prepareSendXdr: () => unknown;
   prepareSwapXdr: () => unknown;
+  setTxHash: (hash: string | null) => void;
 }
 
 export type ScreenRenderer = (ctx: ScreenContext) => ReactNode;

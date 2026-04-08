@@ -68,6 +68,7 @@ export function useConnectModal(initial: StepId = "wallet-select") {
     fetchPayments: stellar.fetchPayments,
     prepareSendXdr: stellar.prepareSendXdr,
     prepareSwapXdr: stellar.prepareSwapXdr,
+    setTxHash: stellar.setTxHash,
   };
 
   return {
