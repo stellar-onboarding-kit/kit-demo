@@ -59,9 +59,8 @@ function ModalContent({
         <motion.div
           className={cn(
             "pointer-events-auto relative z-[2]",
-            "overflow-hidden rounded-[var(--ck-border-radius,20px)]",
+            "overflow-hidden rounded-[var(--ck-border-radius,32px)]",
             "bg-(--ck-body-background) text-(--ck-body-color)",
-            "shadow-[var(--ck-modal-box-shadow,0_2px_15px_rgba(0,0,0,0.08))]",
             "duration-100 ease-out",
             "data-open:animate-in data-open:fade-in-0 data-open:zoom-in-[0.97]",
             "data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-[0.97]"
@@ -72,7 +71,7 @@ function ModalContent({
             <Dialog.Close
               data-slot="modal-close-button"
               className={cn(
-                "absolute right-[17px] top-[22px] z-[3]",
+                "absolute right-[17px] top-[12px] z-[3]",
                 "flex size-8 cursor-pointer items-center justify-center rounded-2xl p-0",
                 "text-(--ck-body-action-color) bg-(--ck-body-background)",
                 "transition-[background-color,transform] duration-200 ease-in-out",
@@ -108,13 +107,13 @@ function ModalHeader({
     <div
       data-slot="modal-header"
       className={cn(
-        "relative z-[3] h-16 pointer-events-auto",
+        "relative z-[3] h-14 pointer-events-auto",
         className
       )}
       {...props}
     >
       {/* Left slot: back or info button */}
-      <div className="absolute left-5 top-[23px] size-8">
+      <div className="absolute left-5 top-1/2 size-8 -translate-y-1/2">
         <AnimatePresence mode="wait">
           {onBack ? (
             <motion.button
